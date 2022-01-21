@@ -1,61 +1,62 @@
-
 <html>
 
-<head>
-    <title>Page Title</title>
-    <link href="login.css" rel="stylesheet" href="css/style.css">
-</head>
+  <head>
+      <title>Page Title</title>
+      <link href="login.css" rel="stylesheet" href="css/style.css">
+  </head>
 
-<body>
+  <body>
 
-<h1> Login</h1>
+  <h1> Login</h1>
 
-<form name="login" action="test2.php" method="post">
+  <form name="login" method="post">
+  	<input type="username" placeholder="Enter Username" name="username" required autocomplete="off"><br><br>
+  	<input type="password" placeholder="Enter Password" name="password" required><br><br>
+  	<button style="font-size:13px; padding:8px 12px" class="button" type="submit">Let's go!</button>
+  </form>
 
-	<input type="username" placeholder="Enter Username" name="username" required autocomplete="off"><br><br>
-	<input type="password" placeholder="Enter Password" name="password" required><br><br>
-	<button style="font-size:13px; padding:8px 12px" class="button" type="submit">Let's go!</button>
-</form>
+  </body>
 
-</body>
 </html>
 
 
 <?php
 
-	$username = $_REQUEST['username'];
-	$password = $_REQUEST['password'];
+  if($_SERVER["REQUEST_METHOD"] == "POST") {
+  	$username = $_REQUEST['username'];
+  	$password = $_REQUEST['password'];
 
-	$UsernameFile = fopen("usernames.csv","r") or die ("Can't open file");
-	$headerRow = fgetcsv($UsernameFile);
+  	$UsernameFile = fopen("usernames.csv","r") or die ("Can't open file");
+  	$headerRow = fgetcsv($UsernameFile);
 
-	while (($row = fgetcsv($UsernameFile)) !== FALSE)
-	{
-		$col = array($row[0]);
+  	while (($row = fgetcsv($UsernameFile)) !== FALSE)
+  	{
+  		$col = array($row[0]);
 
-		if (in_array($username, $col))
-		{
+  		if (in_array($username, $col))
+  		{
 
-			if ($password == $row[1])
-				{
-					echo "<script>window.location.href = 'ono.php'</script>";
-				}
+  			if ($password == $row[1])
+        {
+  				echo "<script>window.location.href = 'ono.php'</script>";
+  			}
 
-			else
+  			else
 				{
 					echo "Sorry, the username and the password did not match.<br> Please try again";
-		}
-		}
+		    }
 
-	}
+  		}
 
+  	}
 
-	fclose($UsernameFile);
+  	fclose($UsernameFile);
 
-	if (!in_array($username, $col))
-		{
-			echo "username does not exist";
-		}
+  	if (!in_array($username, $col))
+  		{
+  			echo "username does not exist";
+  		}
+  }
 
 ?>
 
