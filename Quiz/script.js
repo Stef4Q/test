@@ -1,121 +1,31 @@
-const options = ["football", "tennis", "biking", "cricket", "basketball", "badminton", "athletics","table tennis","volleyball","MX"];
+const options = ["football", "tennis", "biking", "cricket", "basketball", "badminton", "athletics", "table tennis", "volleyball", "MX", "reading", "watching movies"];
+const questions1 = ["How much do you like "];
+const questions2 = ["How much do you play"];
+const questions3 = ["How long have you played or done "];
+
+const answers1 = ["Favourite","A lot","Occasionally","A bit","Not at all"];
+const answers2 = ["Wish I always did","Whenever I can","Weekly","Occasionally","From time to time"];
+
 const picked= [];
-let x;
 const strengths = [];
 const hobbies = [];
+let no_of_hobbies = 10;
+const highStrengths = [];
+const highHobbies = [];
+
+const strengths1 = [];
 
 
-
-while(options.length>0)
+while(hobbies.length < no_of_hobbies)   // as long as the list of hobbies has less than no_of_hobbies elements
 {
-	var j = Math.floor(Math.random() * (options.length));
-  hobbies.push(options[j]);
-  options.splice(j, 1); 
+	var j = Math.floor(Math.random() * (options.length));    // generate an index j (from options)
+  if (!hobbies.includes(options[j]))    // check if that option was already selected
+  {
+    hobbies.push(options[j]);     // if we did not previusly add this hobby to our list, add it now
+  }
 }
 
-const quizData = [
-
-  
-
-  {
-    question: "Do you like " + hobbies[0],
-    a: "Favourite",
-    b: "A lot",
-    c: "Occasionally",
-    d: "A bit",
-    e: "Never"
-
-  },
-  {
-    question: "Do you like " + hobbies[1],
-    a: "Favourite",
-    b: "A lot",
-    c: "Occasionally",
-    d: "A bit",
-    e: "Never"
-
-  },
-  {
-    question: "Do you play " + hobbies[2],
-    a: "Favourite",
-    b: "A lot",
-    c: "Occasionally",
-    d: "A bit",
-    e: "Never"
-
-  },
-  {
-    question: "Do you like " + hobbies[3],
-    a: "Favourite",
-    b: "A lot",
-    c: "Occasionally",
-    d: "A bit",
-    e: "Never"
-
-  },
-
- {
-    question: "Do you like " + hobbies[4],
-    a: "Favourite",
-    b: "A lot",
-    c: "Occasionally",
-    d: "A bit",
-    e: "Never"
-
-  },
-
-  {
-    question: "Do you like " + hobbies[5],
-    a: "Favourite",
-    b: "A lot",
-    c: "Occasionally",
-    d: "A bit",
-    e: "Never"
-
-  },
-
-  {
-    question: "Do you like " + hobbies[6],
-    a: "Favourite",
-    b: "A lot",
-    c: "Occasionally",
-    d: "A bit",
-    e: "Never"
-
-  },
-  {
-    question: "Do you like " + hobbies[7],
-    a: "Favourite",
-    b: "A lot",
-    c: "Occasionally",
-    d: "A bit",
-    e: "Never"
-
-  },
-
-  {
-    question: "Do you like " + hobbies[8],
-    a: "Favourite",
-    b: "A lot",
-    c: "Occasionally",
-    d: "A bit",
-    e: "Never"
-
-  },
-
- {
-    question: "Do you like " + hobbies[9],
-    a: "Favourite",
-    b: "A lot",
-    c: "Occasionally",
-    d: "A bit",
-    e: "Never"
-
-  },
-
-
-
-];
+console.log(hobbies);
 
 const quiz = document.getElementById('quiz')
 const answerEls = document.querySelectorAll('.answer')
@@ -131,20 +41,118 @@ const submitBtn = document.getElementById('submit')
 
 let currentQuiz = 0
 
-loadQuiz()
+loadQuiz(questions1,answers1,hobbies,currentQuiz)
 
-function loadQuiz() {
+
+submitBtn.addEventListener('click', () => {
+  const answer = getSelected()
+  if (answer) {
+    if (answer === "a") {
+      strengths.splice(strengths.length,0,'7');
+
+    } else if (answer === "b") {
+      strengths.splice(strengths.length,0,'5');
+    }
+    else if (answer === "c") {
+      strengths.splice(strengths.length,0,'4');
+    } else if (answer === "d") {
+      strengths.splice(strengths.length,0,'3');
+    } else if (answer === "e"){
+      strengths.splice(strengths.length,0,'2');
+    }
+
+    currentQuiz++
+
+    if (currentQuiz < no_of_hobbies) {
+      loadQuiz(questions1,answers1,hobbies,currentQuiz)
+    } else {
+      quiz.innerHTML = `
+             <h2>You answered questions boss</h2>
+
+             <button onclick="location.reload()">Reload</button>
+             `
+      bubbleSort(strengths, hobbies);
+      console.log(strengths);
+      console.log(hobbies);
+      linearSearch(strengths, "4");
+      testt();
+      console.log(highStrengths);
+      console.log(highHobbies);
+
+    }
+  } 
+  else // if the user has not selected an answer, prompt them to pick one
+  {
+    alert("Please pick an option!");
+  }
+
+})
+
+
+
+
+
+
+
+function testt(){
+
+let currentQuiz1 = 0;
+
+loadQuiz(questions2,answers2,highHobbies,currentQuiz1)
+
+submitBtn.addEventListener('click', () => {
+  const answer = getSelected()
+  if (answer) {
+    if (answer === "a") {
+      strengths1.splice(strengths1.length,0,'3');
+
+    } else if (answer === "b") {
+      strengths1.splice(strengths1.length,0,'2');
+    }
+    else if (answer === "c") {
+      strengths1.splice(strengths1.length,0,'1');
+    } else if (answer === "d") {
+      strengths1.splice(strengths1.length,0,'1');
+    } else if (answer === "e"){
+      strengths1.splice(strengths1.length,0,'0');
+    }
+
+    currentQuiz1++
+
+    if (currentQuiz1 < highHobbies.length) {
+      loadQuiz(questions2,answers2,highHobbies,currentQuiz1)
+    } else {
+      quiz.innerHTML = `
+             <h2>You answered questions boss</h2>
+
+             <button onclick="location.reload()">Reload</button>
+
+             `
+      bubbleSort(highHobbies, strengths1);
+      console.log(strengths1);
+      console.log(highHobbies);
+
+
+    }
+  } 
+  else // if the user has not selected an answer, prompt them to pick one
+  {
+    alert("Please pick an option!");
+  }
+
+})
+}
+
+function loadQuiz(ques,ans,array3,pointer) {
 
   deselectAnswers()
 
-  const currentQuizData = quizData[currentQuiz]
-
-  questionEl.innerText = currentQuizData.question
-  a_text.innerText = currentQuizData.a
-  b_text.innerText = currentQuizData.b
-  c_text.innerText = currentQuizData.c
-  d_text.innerText = currentQuizData.d
-  e_text.innerText = currentQuizData.e
+  questionEl.innerText = ques + array3[pointer] + "?"
+  a_text.innerText = ans[0]
+  b_text.innerText = ans[1]
+  c_text.innerText = ans[2]
+  d_text.innerText = ans[3]
+  e_text.innerText = ans[4]
 
 }
 
@@ -163,46 +171,6 @@ function getSelected() {
   return answer
 }
 
-
-
-submitBtn.addEventListener('click', () => {
-  const answer = getSelected()
-  if (answer) {
-    if (answer === "a") {
-      strengths.push("7");
-
-    } else if (answer === "b") {
-      strengths.push("6");
-    }
-    else if (answer === "c") {
-      strengths.push("4");
-    } else if (answer === "d") {
-      strengths.push("3");
-    } else if (answer === "e"){
-      strengths.push("2");
-    }
-  }
-
-  currentQuiz++
-
-  if (currentQuiz < quizData.length) {
-    loadQuiz()
-  } else {
-    quiz.innerHTML = `
-           <h2>You answered questions boss</h2>
-
-           <button onclick="location.reload()">Reload</button>
-
-           `
-    bubbleSort(strengths, hobbies);
-    console.log(strengths);
-    console.log(hobbies);
-  }
-
-
-
-
-})
 
 function bubbleSort(array, array2) {
   var done = false;
@@ -224,3 +192,14 @@ function bubbleSort(array, array2) {
   return array;
 }
 
+
+
+function linearSearch(arr, key){
+    for(let i = 0; i < arr.length; i++){
+        if(arr[i] > key){
+            highStrengths.push(arr[i]);
+            highHobbies.push(hobbies[i]);
+        }
+    }
+    return -1
+}
